@@ -16,6 +16,13 @@
 - https://code.visualstudio.com/tutorials/functions-extension/create-app
 - https://code.visualstudio.com/tutorials/functions-extension/create-function
 
+- Install VSCode Azure Functions Extension
+- Install Azure Resource Manager Tools VSCode Extension
+- Also install the azure cli
+    - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+    - Run `az login`
+    - Select your subscription `az account set --subscription <name or id>`
+
 Outdated Typescript setup but still helpful:
 - https://medium.com/@amr.farid140/awesome-typescript-azure-functions-part-1-project-setup-1f5950e7a704
 Outdated Typescript boilerplate with mongoose for mongodb:
@@ -54,6 +61,18 @@ This works with POST and GET requests.
 
 Azure Resource Explorer(ARM) Templates
 - https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
+- [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
+Find the generated ARM Template for an existing resource group:
+    - Open Azure Portal
+    - Open Resource Groups and select the one you want
+    - On the left select "Export template"
+    - Wait for it to generate and click the download button on the top
+    - Paste contents in this repository
+    - CD into the new directory
+    - Run the following to validate:
+```
+az group deployment validate --resource-group azurefunctionspractice --template-file ./template.json --parameters ./parameters.json
+```
 
 ## Routing
 - https://www.serverlessnotes.com/docs/http-routing-with-azure-functions
@@ -68,6 +87,8 @@ Azure Resource Explorer(ARM) Templates
 - https://www.npmjs.com/package/azure-functions-auth
 - https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/?cdn=disable
 - [Identity and secure resource access in App Service and Azure Functions - Matthew Henderson](https://www.youtube.com/watch?v=iFDXDQXRJ8Y)
+
+- https://peteskelly.com/secure-functions-aad-2/
 
 ## Azure CosmosDB
 - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
