@@ -1,27 +1,23 @@
 # Azure Functions Serverless Typescript Practice
 
-## Table of Contents:
-- [Getting Started](#getting-started)
-- [Typescript Setup](#typescript-setup)
-- [Postman Testing](#postman-testing)
-- [Deploying](#deploying)
-- [Routing](#routing)
-- [Authentication](#authentication)
-- [Azure CosmosDB](#azure-cosmosdb)
-- [CICD](#cicd)
-
 ## Examples Illustrated
-- [ ] Multi endpoint azure function REST
-- [ ] Azure Active Directory Authentication With OAuth
-- [ ] ARM Template Deployment
+- [x] Multi endpoint azure function REST
+- [x] Azure Active Directory Authentication With OAuth
 - [ ] Azure CosmosDB Persistence For CRUD Operations From REST API
+- [ ] GitHub Build/Deployment Hook
+- [ ] ARM Template Deployment
 
-## Getting Started
+## Table of Contents:
+- [Typescript Functions App QuickStart](#typescript-functions-app-quickstart)
+- [Authentication](#authentication)
+- [Deploying](#deploying)
+- [Postman Testing](#postman-testing)
+- [Routing](#routing)
+- [Azure CosmosDB](#azure-cosmosdb)
 
-- https://code.visualstudio.com/tutorials/functions-extension/getting-started
-- https://code.visualstudio.com/tutorials/functions-extension/create-app
-- https://code.visualstudio.com/tutorials/functions-extension/create-function
+## Typescript Functions App QuickStart
 
+Setup Dependencies:
 - Install VSCode Azure Functions Extension
 - Install Azure Resource Manager Tools VSCode Extension
 - Also install the azure cli
@@ -29,25 +25,78 @@
     - Run `az login`
     - Select your subscription `az account set --subscription <name or id>`
 
-Outdated Typescript setup but still helpful:
-- https://medium.com/@amr.farid140/awesome-typescript-azure-functions-part-1-project-setup-1f5950e7a704
-Outdated Typescript boilerplate with mongoose for mongodb:
-- https://github.com/azure-seed/azure-functions-mongooser
+Create TypeScript Functions App:
+- Open VSCode
+    - Open Azure Extension
+    - Open Functions Section
+    - Click Create New Project Icon
+    - Select the folder you're working in
+    - Select TypeScript
+    - Add & then name an HTTP Trigger it that's what you like or select Skip for now
+- Add A Function
+    - Open VSCode
+    - Open Azure Extension
+    - Open Functions Section
+    - Click the Create New Function icon
+    - Select function type and name it
+ 
+You can continue adding as many functions as you need to the one Azure Functions App you've created in your folder with VSCode.
+
+Resources Used:
+- https://code.visualstudio.com/tutorials/functions-extension/getting-started
+- https://code.visualstudio.com/tutorials/functions-extension/create-app
+- https://code.visualstudio.com/tutorials/functions-extension/create-function
+- https://azure.microsoft.com/en-us/blog/improving-the-typescript-support-in-azure-functions/
+- https://github.com/mhoeger/typescript-azure-functions
+ 
 Other resources:
 - https://medium.com/burak-tasci/backend-development-on-azure-functions-with-typescript-56113b6be4b9
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#trigger---configuration
 
-### GraphQL Support
-- https://www.apollographql.com/docs/apollo-server/v1/servers/azure-functions/
-- https://www.apollographql.com/docs/apollo-server/deployment/azure-functions/
-- https://www.linkedin.com/pulse/azure-function-graphql-cosmos-db-serverless-goodness-lee/
+Outdated Typescript setup but still helpful:
+- https://medium.com/@amr.farid140/awesome-typescript-azure-functions-part-1-project-setup-1f5950e7a704
 
-## Typescript Setup
-The azure functions vscode extension now supports Typescript as one of the project templates to choose from when initializing a new function.
-- https://azure.microsoft.com/en-us/blog/improving-the-typescript-support-in-azure-functions/
+Outdated Typescript boilerplate with mongoose for mongodb:
+- https://github.com/azure-seed/azure-functions-mongooser
 
-For more examples of the kind of boilerplate it will create you can check out this repository mentioned in the link above:
-- https://github.com/mhoeger/typescript-azure-functions
+## Authentication
+
+Setting Up Auth For Functions App
+- Open Functions App In Portal
+    - Click Platform Features
+    - Click Authentication / Authorization under the networking section
+    - Turn App Service Authentication On
+    - Under "Action to take when request is not authenticated" Select Log in with Azure Active Directory
+    - Under Authentication Providers click "Azure Active Directory"
+    - Selected "Express" for Management mode
+    - Select your Azure AD App you're working on in the portal if it's not already selected
+    - Click OK
+    - Click Save
+
+Resources Referenced:
+- https://docs.microsoft.com/en-us/azure/app-service/overview-authentication-authorization
+- https://docs.microsoft.com/en-us/azure/app-service/configure-authentication-provider-aad
+- https://www.npmjs.com/package/azure-functions-auth
+- https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/
+
+Other Resources:
+- https://www.npmjs.com/package/azure-functions-auth
+- https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/
+- [Identity and secure resource access in App Service and Azure Functions - Matthew Henderson](https://www.youtube.com/watch?v=iFDXDQXRJ8Y)
+- https://peteskelly.com/secure-functions-aad-2/
+
+## Deploying
+
+- https://code.visualstudio.com/tutorials/functions-extension/deploy-app
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-continuous-deployment
+- https://github.com/Azure/Azure-Functions/wiki/Deploying-Function-Apps-vs-individual-Functions
+    - https://azure.microsoft.com/en-us/resources/templates/
+
+Azure Resource Explorer(ARM) Templates
+- https://github.com/Azure/azure-quickstart-templates/tree/master/101-function-app-create-dynamic
+
+- https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
+- [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
 
 ## Postman Testing
 - https://www.getpostman.com/downloads/
@@ -61,25 +110,6 @@ This works with POST and GET requests.
 }
 ```
 
-## Deploying
-
-- https://code.visualstudio.com/tutorials/functions-extension/deploy-app
-
-Azure Resource Explorer(ARM) Templates
-- https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
-- [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
-Find the generated ARM Template for an existing resource group:
-    - Open Azure Portal
-    - Open Resource Groups and select the one you want
-    - On the left select "Export template"
-    - Wait for it to generate and click the download button on the top
-    - Paste contents in this repository
-    - CD into the new directory
-    - Run the following to validate:
-```
-az group deployment validate --resource-group azurefunctionspractice --template-file ./template.json --parameters ./parameters.json
-```
-
 ## Routing
 - https://www.serverlessnotes.com/docs/http-routing-with-azure-functions
 - https://stackoverflow.com/questions/48305132/custom-routing-in-azure-functions-using-httptrigger-attribute
@@ -88,16 +118,5 @@ az group deployment validate --resource-group azurefunctionspractice --template-
 
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
 
-## Authentication
-
-- https://www.npmjs.com/package/azure-functions-auth
-- https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/?cdn=disable
-- [Identity and secure resource access in App Service and Azure Functions - Matthew Henderson](https://www.youtube.com/watch?v=iFDXDQXRJ8Y)
-
-- https://peteskelly.com/secure-functions-aad-2/
-
 ## Azure CosmosDB
 - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
-
-## CICD
-- https://github.com/azure-seed/azure-functions-typescript/blob/master/.circleci/config.yml
