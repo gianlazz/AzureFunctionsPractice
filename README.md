@@ -10,6 +10,12 @@
 - [Azure CosmosDB](#azure-cosmosdb)
 - [CICD](#cicd)
 
+## Examples Illustrated
+- [ ] Multi endpoint azure function REST
+- [ ] Azure Active Directory Authentication With OAuth
+- [ ] ARM Template Deployment
+- [ ] Azure CosmosDB Persistence For CRUD Operations From REST API
+
 ## Getting Started
 
 - https://code.visualstudio.com/tutorials/functions-extension/getting-started
