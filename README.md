@@ -73,15 +73,17 @@ Setting Up Auth For Functions App
     - Click OK
     - Click Save
 
+![alt test](https://peteskelly.com/content/images/2017/09/config_aad-2.gif)
+
 Resources Referenced:
 - https://docs.microsoft.com/en-us/azure/app-service/overview-authentication-authorization
 - https://docs.microsoft.com/en-us/azure/app-service/configure-authentication-provider-aad
+- https://peteskelly.com/secure-functions-aad-2/ 
 
 Other Resources:
 - https://www.npmjs.com/package/azure-functions-auth
 - https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/
 - [Identity and secure resource access in App Service and Azure Functions - Matthew Henderson](https://www.youtube.com/watch?v=iFDXDQXRJ8Y)
-- https://peteskelly.com/secure-functions-aad-2/
 
 ## Azure CosmosDB
 
