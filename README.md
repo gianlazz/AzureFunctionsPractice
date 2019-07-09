@@ -119,4 +119,11 @@ This works with POST and GET requests.
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
 
 ## Azure CosmosDB
+
+Resources Used:
 - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
+- https://www.npmjs.com/package/@azure/cosmos
+
+Other Resources:
+- https://blogs.msdn.microsoft.com/wushuai/2017/11/19/access-azure-cosmosdb-in-typescript/
+

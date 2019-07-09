@@ -1,21 +1,55 @@
-import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
-    const name = (req.query.name || (req.body && req.body.name));
 
-    if (name) {
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: "Hello " + (req.query.name || req.body.name) + " this is function1."
-        };
-    }
-    else {
-        context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
-        };
+    const id = req.params ? req.params.id : undefined;
+    
+    switch (req.method) {
+        case "GET":
+            context.res.body = id ? await getOne(id) : await getMany(req);
+            console.log(`Returned object ${id}`);
+            break;
+        case "POST":
+            context.res.body = await insertOne(req, id);
+            console.log(`Inserted object ${id}`);
+            break;
+        case "PATCH":
+            context.res.body = await updateOne(req, id);
+            console.log(`Updated object ${id}`);
+            break;
+        default:
+            context.res.body = {
+                status: 400,
+                body: {
+                    error: {
+                        type: 'not_supported',
+                        message: `Method ${req.method} not supported.`
+                    }
+                }
+            };
+            console.log(`Returned Error 400`);
     }
 };
+
+const getOne = async (id: any): Promise<any> => {
+    console.log('gettingOne');
+    return id;
+}
+
+const getMany = async (req: any): Promise<any> => {
+    console.log('gettingMany');
+    return req;
+}
+
+const insertOne = async (req, id): Promise<any> => {
+    console.log('insertingOne');
+    return id;
+}
+
+const updateOne = async (req, id): Promise<any> => {
+    console.log('updatingOne');
+    return req;
+}
 
 export default httpTrigger;
