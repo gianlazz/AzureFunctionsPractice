@@ -48,7 +48,6 @@ Resources Used:
 - https://code.visualstudio.com/tutorials/functions-extension/create-function
 - https://azure.microsoft.com/en-us/blog/improving-the-typescript-support-in-azure-functions/
 - https://github.com/mhoeger/typescript-azure-functions
-- https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
  
 Other resources:
 - https://medium.com/burak-tasci/backend-development-on-azure-functions-with-typescript-56113b6be4b9

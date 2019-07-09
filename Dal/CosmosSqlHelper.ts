@@ -2,16 +2,24 @@ import { CosmosClient, PartitionKeyDefinition } from "@azure/cosmos";
 
 export class CosmosSqlHelper {
     
-    endpoint = "";
-    masterKey = "";
-    databaseId = "";
-    containerId = "";
+    endpoint: string;
+    masterKey: string;
+    databaseId: string;
+    containerId: string;
     partitionKey = { kind: "Hash", paths: ["/Country"] } as PartitionKeyDefinition;
 
     client: CosmosClient;
     initialized: boolean = false;
 
     constructor() {
+        this.endpoint = process.env['COSMOS_SQL_ENDPOINT']
+        if (!this.endpoint) {
+            throw Error('COSMOS_SQL_ENDPOINT environment variable not found.');
+        }
+        this.masterKey = process.env['COSMOS_SQL_MASTERKEY']
+        if (!this.masterKey) {
+            throw Error('COSMOS_SQL_MASTERKEY environment variable not found.');
+        }
         this.getClient();
     }
 
