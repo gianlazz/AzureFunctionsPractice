@@ -9,60 +9,91 @@ export class CosmosSqlHelper {
     partitionKey = { kind: "Hash", paths: ["/Country"] } as PartitionKeyDefinition;
 
     client: CosmosClient;
-    startupPromise: Promise<any>;
+    initialized: boolean = false;
 
     constructor() {
         this.getClient();
-        this.startupPromise = this.createDatabase()
-        .then(() => this.readDatabase())
-        .then(() => this.createContainer())
-        .then(() => this.readContainer())
-        .then(() => { status: `Completed successfully` })
-        .catch((error) => { status: `Completed with error ${JSON.stringify(error)}` });
     }
 
-    async getClient(): Promise<CosmosClient> {
-        if (!this.client) {
-            this.client = new CosmosClient(
-                { 
-                    endpoint: this.endpoint, 
-                    auth: { 
-                        masterKey: this.masterKey 
-                    }
-                });
+    async initialize(): Promise<void> {
+        try {
+            await this.createDatabase();
+            await this.readDatabase();
+            await this.createContainer();
+            await this.readContainer();
+            this.initialized = true;
+            console.log('Completed initialization');
+        } catch (error) {
+            console.error(`Completed with error ${JSON.stringify(error)}`);
+            throw Error(error);
         }
-        console.log('Awaiting db initialization');
-        await this.startupPromise;
-        console.log('DB Ready');
-
-        return this.client;
+    }
+    
+    checkIfInitialized() {
+        console.log('Waiting for DB Helper initialization process.');
+        while (!this.initialized) {}
+        console.log('DB Helper is initialized.')
+    }
+    
+    async getClient(): Promise<CosmosClient> {
+        try {
+            if (!this.client) {
+                this.client = new CosmosClient(
+                    { 
+                        endpoint: this.endpoint, 
+                        auth: { 
+                            masterKey: this.masterKey 
+                        }
+                    });
+            }
+            this.checkIfInitialized();
+            return this.client;
+        } catch (error) {
+            throw Error(error);
+        }
     }
 
-    async createDatabase() {
-        const database = await this.client.databases.createIfNotExists({id: this.databaseId });
-        console.log(`Created database: ${this.databaseId}`);
+    private async createDatabase() {
+        try {
+            const database = await this.client.databases.createIfNotExists({id: this.databaseId });
+            console.log(`Created database: ${this.databaseId}`);   
+        } catch (error) {
+            throw Error(error);
+        }
     }
 
-    async readDatabase() {
-        const definition = await this.client.database(this.databaseId).read();
-        console.log(`Reading database: ${definition.database.id}`);
+    private async readDatabase() {
+        try {
+            const definition = await this.client.database(this.databaseId).read();
+            console.log(`Reading database: ${definition.database.id}`);
+        } catch (error) {
+            throw Error(error);   
+        }
     }
 
-    async createContainer() {
-        const result = await this.client.database(this.databaseId).containers.createIfNotExists(
-            { 
-                id: this.containerId, 
-                partitionKey: this.partitionKey
-            }, 
-            { 
-                offerThroughput: 400 
-            });
-        console.log(`Created container: ${result.container.id}`);
+    private async createContainer() {
+        try {
+            const result = await this.client.database(this.databaseId).containers.createIfNotExists(
+                { 
+                    id: this.containerId, 
+                    partitionKey: this.partitionKey
+                }, 
+                { 
+                    offerThroughput: 400 
+                });
+            console.log(`Created container: ${result.container.id}`);   
+        } catch (error) {
+            throw Error(error);
+        }
     }
 
-    async readContainer() {
-        const result = await this.client.database(this.databaseId).container(this.containerId).read();
-        console.log(`Reading container ${result.body.id}`);
+    private async readContainer() {
+        try {
+            const result = await this.client.database(this.databaseId).container(this.containerId).read();
+            console.log(`Reading container ${result.body.id}`);   
+        } catch (error) {
+            throw Error(error);
+        }
     }
 
 }
