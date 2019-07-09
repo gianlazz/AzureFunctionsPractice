@@ -10,10 +10,10 @@
 ## Table of Contents:
 - [Typescript Functions App QuickStart](#typescript-functions-app-quickstart)
 - [Authentication](#authentication)
+- [Azure CosmosDB](#azure-cosmosdb)
 - [Deploying](#deploying)
 - [Postman Testing](#postman-testing)
 - [Routing](#routing)
-- [Azure CosmosDB](#azure-cosmosdb)
 
 ## Typescript Functions App QuickStart
 
@@ -76,14 +76,21 @@ Setting Up Auth For Functions App
 Resources Referenced:
 - https://docs.microsoft.com/en-us/azure/app-service/overview-authentication-authorization
 - https://docs.microsoft.com/en-us/azure/app-service/configure-authentication-provider-aad
-- https://www.npmjs.com/package/azure-functions-auth
-- https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/
 
 Other Resources:
 - https://www.npmjs.com/package/azure-functions-auth
 - https://azure.microsoft.com/en-us/resources/samples/active-directory-node-webapp-openidconnect/
 - [Identity and secure resource access in App Service and Azure Functions - Matthew Henderson](https://www.youtube.com/watch?v=iFDXDQXRJ8Y)
 - https://peteskelly.com/secure-functions-aad-2/
+
+## Azure CosmosDB
+
+Resources Used:
+- https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
+- https://www.npmjs.com/package/@azure/cosmos
+
+Other Resources:
+- https://blogs.msdn.microsoft.com/wushuai/2017/11/19/access-azure-cosmosdb-in-typescript/
 
 ## Deploying
 
@@ -117,13 +124,4 @@ This works with POST and GET requests.
 - https://www.codeproject.com/Articles/1275414/Azure-Functions-2-0-HTTP-Routing-Options
 
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
-
-## Azure CosmosDB
-
-Resources Used:
-- https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
-- https://www.npmjs.com/package/@azure/cosmos
-
-Other Resources:
-- https://blogs.msdn.microsoft.com/wushuai/2017/11/19/access-azure-cosmosdb-in-typescript/
 
