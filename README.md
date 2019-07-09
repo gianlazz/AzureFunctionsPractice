@@ -90,6 +90,8 @@ Other Resources:
 Resources Used:
 - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
 - https://www.npmjs.com/package/@azure/cosmos
+- https://connectedstuff.io/2018/03/02/building-serverless-apis-with-typescript-and-azure-function-proxies-2/
+- https://github.com/TsuyoshiUshio/TypeScriptCosmosSpike
 
 Other Resources:
 - https://blogs.msdn.microsoft.com/wushuai/2017/11/19/access-azure-cosmosdb-in-typescript/
