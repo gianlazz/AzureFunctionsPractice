@@ -48,6 +48,7 @@ Resources Used:
 - https://code.visualstudio.com/tutorials/functions-extension/create-function
 - https://azure.microsoft.com/en-us/blog/improving-the-typescript-support-in-azure-functions/
 - https://github.com/mhoeger/typescript-azure-functions
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
  
 Other resources:
 - https://medium.com/burak-tasci/backend-development-on-azure-functions-with-typescript-56113b6be4b9
@@ -75,10 +76,38 @@ Setting Up Auth For Functions App
 
 ![alt test](https://peteskelly.com/content/images/2017/09/config_aad-2.gif)
 
+Then in an HttpTrigger you can extract user details out of the request header with the following code:
+```TYPESCRIPT
+    extractUser(req: HttpRequest): User {
+        const user = {
+            email: req.headers["x-ms-client-principal-name"],
+            authProvider: req.headers["x-ms-client-principal-idp"],
+            userAgent: req.headers["user-agent"],
+            clientIp: req.headers["client-ip"],
+        } as User;
+
+        return user;
+    }
+```
+This will return something that looks like this:
+```JSON
+{
+  "email": "YOUR AUTHENTICATED EMAIL ADDRESS WOULD BE HERE",
+  "authProvider": "aad",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
+  "clientIp": "YOUR IP WOULD BE HERE"
+}
+```
+
 Resources Referenced:
 - https://docs.microsoft.com/en-us/azure/app-service/overview-authentication-authorization
 - https://docs.microsoft.com/en-us/azure/app-service/configure-authentication-provider-aad
 - https://peteskelly.com/secure-functions-aad-2/ 
+- https://stackoverflow.com/questions/36576863/get-logged-in-user-with-azure-web-apps-auth
+
+Auth Endpoints:
+- https://azurefunctionspractice.azurewebsites.net/.auth/me
+- https://azurefunctionspractice.azurewebsites.net/.auth/login/aad
 
 Other Resources:
 - https://www.npmjs.com/package/azure-functions-auth
@@ -133,12 +162,3 @@ This works with POST and GET requests.
 Resources Referenced:
 - https://stackoverflow.com/questions/54831728/context-log-vs-console-log-in-azure-function-apps
 
-## Routing
-
-Resources Referenced:
-- https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
-
-Other Resources:
-- https://www.serverlessnotes.com/docs/http-routing-with-azure-functions
-- https://jonathangiles.net/creating-custom-routes-in-azure-functions/
-- https://www.codeproject.com/Articles/1275414/Azure-Functions-2-0-HTTP-Routing-Options

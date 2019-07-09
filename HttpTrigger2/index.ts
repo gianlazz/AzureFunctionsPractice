@@ -1,21 +1,15 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { AuthService } from "../Services/authService";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
-    const name = (req.query.name || (req.body && req.body.name));
-
-    if (name) {
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: "Hello " + (req.query.name || req.body.name) + " this is function2."
-        };
-    }
-    else {
-        context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
-        };
-    }
+    const authService = new AuthService();
+    const user = authService.extractUser(req);
+    context.res = {
+        // status: 200, /* Defaults to 200 */
+        body: "Hello " + (JSON.stringify(user, null, 2)) + " this is function2."
+    };
+    
 };
 
 export default httpTrigger;
