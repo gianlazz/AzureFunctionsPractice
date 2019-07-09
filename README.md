@@ -108,6 +108,7 @@ Azure Resource Explorer(ARM) Templates
 - [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
 
 ## Postman Testing
+
 - https://www.getpostman.com/downloads/
 
 In the request body of postman change from text to JSON (application/json) ans send the following body.
@@ -120,10 +121,11 @@ This works with POST and GET requests.
 ```
 
 ## Routing
-- https://www.serverlessnotes.com/docs/http-routing-with-azure-functions
-- https://stackoverflow.com/questions/48305132/custom-routing-in-azure-functions-using-httptrigger-attribute
-- https://jonathangiles.net/creating-custom-routes-in-azure-functions/
-- https://www.codeproject.com/Articles/1275414/Azure-Functions-2-0-HTTP-Routing-Options
 
+Resources Referenced:
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook#customize-the-http-endpoint
 
+Other Resources:
+- https://www.serverlessnotes.com/docs/http-routing-with-azure-functions
+- https://jonathangiles.net/creating-custom-routes-in-azure-functions/
+- https://www.codeproject.com/Articles/1275414/Azure-Functions-2-0-HTTP-Routing-Options
