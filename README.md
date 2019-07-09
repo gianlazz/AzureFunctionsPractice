@@ -122,6 +122,11 @@ This works with POST and GET requests.
 }
 ```
 
+## Logging
+
+Resources Referenced:
+- https://stackoverflow.com/questions/54831728/context-log-vs-console-log-in-azure-function-apps
+
 ## Routing
 
 Resources Referenced:

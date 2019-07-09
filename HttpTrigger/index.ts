@@ -9,14 +9,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         case "GET":
             context.res.body = id ? await getOne(id) : await getMany(req);
             console.log(`Returned object ${id}`);
+            context.log(`Returned object ${id}`);
             break;
         case "POST":
             context.res.body = await insertOne(req, id);
             console.log(`Inserted object ${id}`);
+            context.log(`Inserted object ${id}`);
             break;
         case "PATCH":
             context.res.body = await updateOne(req, id);
             console.log(`Updated object ${id}`);
+            context.log(`Updated object ${id}`);
             break;
         default:
             context.res.body = {
@@ -29,10 +32,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
                 }
             };
             console.log(`Returned Error 400`);
+            context.log(`Returned Error 400`);
     }
 };
 
 const getOne = async (id: any): Promise<any> => {
+    console.log('gettingOne');
     console.log('gettingOne');
     return id;
 }
