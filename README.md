@@ -87,6 +87,12 @@ Other Resources:
 
 ## Azure CosmosDB
 
+**SQL API**
+- https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started
+- https://docs.microsoft.com/en-us/azure/cosmos-db/sql-query-getting-started
+
+**NOSQL API**
+
 Resources Used:
 - https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb
 - https://www.npmjs.com/package/@azure/cosmos
