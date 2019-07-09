@@ -21,6 +21,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             console.log(`Updated object ${id}`);
             context.log(`Updated object ${id}`);
             break;
+        case "DELETE":
+            context.res.body = await deleteOne(id);
+            console.log(`Deleted object ${id}`);
+            context.log(`Deleted object ${id}`);
         default:
             context.res.body = {
                 status: 400,
@@ -55,6 +59,11 @@ const insertOne = async (req, id): Promise<any> => {
 const updateOne = async (req, id): Promise<any> => {
     console.log('updatingOne');
     return req;
+}
+
+const deleteOne = async (id): Promise<any> => {
+    console.log('deleteOne');
+    return id;
 }
 
 export default httpTrigger;
