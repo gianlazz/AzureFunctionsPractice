@@ -1,6 +1,6 @@
+import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { CosmosSqlHelper } from "../Dal/CosmosSqlHelper";
-import { CosmosClient, SqlQuerySpec, Items } from "@azure/cosmos";
 import { Person } from "../Dto/person";
 
 let helper: CosmosSqlHelper;
@@ -12,7 +12,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     helper = new CosmosSqlHelper();
     client = await helper.getClient();
 
-    const id = req.params ? req.params.id : undefined;
+    // const id = req.params ? req.params.id : undefined;
+    const id = (req.query.id || (req.body && req.body.id));
     
     switch (req.method) {
         case "GET":
@@ -21,7 +22,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             context.log(`Returned object ${id}`);
             break;
         case "POST":
-            context.res.body = await insertOne(req, id);
+            context.res.body = await insertOne(req);
             console.log(`Inserted object ${id}`);
             context.log(`Inserted object ${id}`);
             break;
@@ -53,7 +54,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 const getOne = async (id: any): Promise<any> => {
     console.log('gettingOne');
     const querySpec: SqlQuerySpec = {
-        query: "SELECT VALUE r.people FROM root r WHERE r.id = @id",
+        query: "SELECT * FROM root r WHERE r.id = @id",
         parameters: [
             {
                 name: "@id",
@@ -67,10 +68,12 @@ const getOne = async (id: any): Promise<any> => {
         .container(helper.containerId)
         .items
         .query(querySpec, { enableCrossPartitionQuery: true }).toArray();
-
-    console.log(JSON.stringify(results, null, 2));
-
-    return id;
+    
+    if (results.length === 1) {
+        const result = results[0] as Person;
+        const person = { id: result.id, firstName: result.firstName, lastName: result.lastName } as Person;
+        return person;
+    }
 }
 
 const getMany = async (req: any): Promise<any> => {
@@ -98,7 +101,7 @@ const getMany = async (req: any): Promise<any> => {
 //#endregion
 
 //#region POST
-const insertOne = async (req, id): Promise<any> => {
+const insertOne = async (req): Promise<any> => {
     console.log('insertingOne');
     let person = req.body as Person;
     const item = await client
