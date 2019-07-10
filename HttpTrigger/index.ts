@@ -3,7 +3,8 @@ import { CosmosSqlHelper } from "../Dal/CosmosSqlHelper";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
-    const client = new CosmosSqlHelper().getClient();
+    const helper = new CosmosSqlHelper();
+    const client = await helper.getClient();
 
     const id = req.params ? req.params.id : undefined;
     

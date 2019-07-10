@@ -20,6 +20,8 @@ export class CosmosSqlHelper {
         if (!this.masterKey) {
             throw Error('COSMOS_SQL_MASTERKEY environment variable not found.');
         }
+        this.databaseId = "PracticeDb";
+        this.containerId = "People";
         this.getClient();
     }
 
@@ -54,6 +56,7 @@ export class CosmosSqlHelper {
                         }
                     });
             }
+            await this.initialize();
             this.checkIfInitialized();
             return this.client;
         } catch (error) {
