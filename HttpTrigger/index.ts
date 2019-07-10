@@ -100,18 +100,14 @@ const getMany = async (req: any): Promise<any> => {
 //#region POST
 const insertOne = async (req, id): Promise<any> => {
     console.log('insertingOne');
-    let person = new Person();
-    person.firstName = req.body.firstName;
-    person.lastName = req.body.lastName;
+    let person = req.body as Person;
     const item = await client
-        .database(helper.containerId)
+        .database(helper.databaseId)
         .container(helper.containerId)
         .items
         .upsert(person);
-
-    console.log(JSON.stringify(item, null, 2));
     
-    return id;
+    return person.id;
 }
 //#endregion
 
