@@ -49,6 +49,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
 };
 
+//#region GET
 const getOne = async (id: any): Promise<any> => {
     console.log('gettingOne');
     const querySpec: SqlQuerySpec = {
@@ -94,7 +95,9 @@ const getMany = async (req: any): Promise<any> => {
      
     return req;
 }
+//#endregion
 
+//#region POST
 const insertOne = async (req, id): Promise<any> => {
     console.log('insertingOne');
     let person = new Person();
@@ -110,7 +113,9 @@ const insertOne = async (req, id): Promise<any> => {
     
     return id;
 }
+//#endregion
 
+//#region PATCH
 const updateOne = async (req, id): Promise<any> => {
     console.log('updatingOne');
     let person = new Person();
@@ -126,7 +131,9 @@ const updateOne = async (req, id): Promise<any> => {
     
     return req;
 }
+//#endregion
 
+//#region DELETE
 const deleteOne = async (id): Promise<any> => {
     console.log('deleteOne');
     const { item } = await client
@@ -139,5 +146,6 @@ const deleteOne = async (id): Promise<any> => {
     
     return id;
 }
+//#endregion
 
 export default httpTrigger;
