@@ -39,12 +39,6 @@ export class CosmosSqlHelper {
         }
     }
     
-    checkIfInitialized() {
-        console.log('Waiting for DB Helper initialization process.');
-        while (!this.initialized) {}
-        console.log('DB Helper is initialized.')
-    }
-    
     async getClient(): Promise<CosmosClient> {
         try {
             if (!this.client) {
@@ -57,7 +51,6 @@ export class CosmosSqlHelper {
                     });
             }
             await this.initialize();
-            this.checkIfInitialized();
             return this.client;
         } catch (error) {
             throw Error(error);

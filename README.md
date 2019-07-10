@@ -118,6 +118,7 @@ Other Resources:
 **SQL API**
 - https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started
 - https://docs.microsoft.com/en-us/azure/cosmos-db/sql-query-getting-started
+- https://www.novatec-gmbh.de/en/blog/azure-documentdb-integration-with-node-js-using-typescript-and-repository-pattern/
 
 **NOSQL API**
 
