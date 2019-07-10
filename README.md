@@ -130,6 +130,19 @@ Resources Used:
 Other Resources:
 - https://blogs.msdn.microsoft.com/wushuai/2017/11/19/access-azure-cosmosdb-in-typescript/
 
+## Settings And Environment Variables
+
+During development environment variables are stored in the local.settings.json which is git ignored.
+
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#local-settings-file
+
+During development these settings need to be added either through the azure portal or through the azure functions vscode extension.
+
+They are then accessed like this:
+```TYPESCRIPT
+const endpoint = process.env['COSMOS_SQL_ENDPOINT']
+```
+
 ## Deploying
 
 - https://code.visualstudio.com/tutorials/functions-extension/deploy-app
