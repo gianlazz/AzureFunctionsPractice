@@ -1,7 +1,7 @@
 import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { CosmosSqlHelper } from "../Dal/CosmosSqlHelper";
-import { Person } from "../Dto/person";
+import { CosmosSqlHelper } from "../common/dal/cosmosSqlHelper";
+import { Person } from "../common/dto/person";
 
 let helper: CosmosSqlHelper;
 let client: CosmosClient;

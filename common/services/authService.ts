@@ -1,5 +1,5 @@
 import { HttpRequest } from "@azure/functions";
-import { User } from "../Dto/user";
+import { User } from "../dto/user";
 
 export class AuthService {
 
