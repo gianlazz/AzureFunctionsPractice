@@ -154,13 +154,16 @@ const updateOne = async (req, id): Promise<any> => {
 //#region DELETE
 const deleteOne = async (id): Promise<any> => {
     console.log('deleteOne');
-    const { item } = await client
+    try {
+        const item = await client
         .database(helper.databaseId)
         .container(helper.containerId)
         .item(id)
         .delete();
+    } catch (error) {
+        throw Error(error);
+    }
 
-    console.log(JSON.stringify(item, null, 2));    
     
     return id;
 }

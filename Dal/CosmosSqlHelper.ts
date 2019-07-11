@@ -80,7 +80,7 @@ export class CosmosSqlHelper {
             const result = await this.client.database(this.databaseId).containers.createIfNotExists(
                 { 
                     id: this.containerId, 
-                    partitionKey: this.partitionKey
+                    // partitionKey: this.partitionKey
                 }, 
                 { 
                     offerThroughput: 400 
