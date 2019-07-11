@@ -118,8 +118,6 @@ const getMany = async (req: any): Promise<any> => {
     for (let index = 0; index < results.length; index++) {
         results[index] = new Person(results[index]);
     }
-    
-    console.log(JSON.stringify(results, null, 2));
      
     return results;
 }
@@ -142,18 +140,17 @@ const insertOne = async (req): Promise<any> => {
 //#region PATCH
 const updateOne = async (req, id): Promise<any> => {
     console.log('updatingOne');
-    let person = new Person();
-    person.firstName = req.body.firstName;
-    person.lastName = req.body.lastName;
+    let person = new Person(req.body);
     const { item } = await client
-        .database(helper.containerId)
+        .database(helper.databaseId)
         .container(helper.containerId)
         .item(id)
         .replace(person);
 
-    console.log(JSON.stringify(item, null, 2));
+    person = new Person(item);
+    console.log(JSON.stringify(person, null, 2));
     
-    return req;
+    return person;
 }
 //#endregion
 
