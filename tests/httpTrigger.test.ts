@@ -8,16 +8,20 @@ afterAll(async () => {
 
 });
 
+let createdPersons: Person[] = [];
+
 describe("HttpTrigger", () => {
     it("POST", async () => {
         // Arrange
-        let person = new Person();
+        const person = new Person();
         person.firstName = "John";
         person.lastName = "Doe";
         console.log("Running POST/create against REST.");
         // Act
         const response = await Axios.post('http://localhost:7071/api/HttpTrigger', person);
         const insertedPersonId = response.data;
+        person.id = insertedPersonId;
+        createdPersons.push(person);
         // Assert
         console.log(`DB Id of newly posted/inserted person ${insertedPersonId}`);
         expect(response).not.toBeNull();
@@ -25,10 +29,15 @@ describe("HttpTrigger", () => {
 
     it("GET", async () => {
         // Arrange
-
+        console.log("Running GET against REST.");
         // Act
-
+        let url = `http://localhost:7071/api/HttpTrigger?id=${createdPersons[0].id}`;
+        const response = await Axios.get('url');
+        const returnedPerson: Person = response.data;
         // Assert
+        console.log(`REST GET results from person id ${createdPersons[0].id}:`);
+        console.log(JSON.stringify(returnedPerson), null, 2);
+        expect(returnedPerson).not.toBeNull();
     });
 
     it("GET many", async () => {

@@ -9,7 +9,7 @@
     "start:host": "func start",
     "start": "npm run start:host & npm run watch",
     "build:production": "npm run prestart && npm prune --production",
-    "test": "npx jest"
+    "test": "npx jest --runInBand"
   },
   "dependencies": {
     "@azure/cosmos": "^2.1.7",
