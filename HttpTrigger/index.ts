@@ -71,25 +71,9 @@ const getOne = async (id: any): Promise<any> => {
         
     if (results.length === 1) {
         const result = results[0];
-        let newPersonObj = new Person();
-        // Object.keys(newPersonObj).forEach(key => {
-        //     if (result.hasOwnProperty(key))
-        //         newPersonObj[key] = result[key]
-        // });
+        let person = new Person(result);
 
-        // return newPersonObj;
-
-        for (let key in newPersonObj) 
-            if (result.hasOwnProperty(key)) 
-                newPersonObj[key] = result[key];
-            
-        
-        
-        return newPersonObj;
-
-        // const result = results[0] as Person;
-        // // const person = { id: result.id, firstName: result.firstName, lastName: result.lastName } as Person;
-        // return person;
+        return person;
     }
 }
 
@@ -129,6 +113,11 @@ const getMany = async (req: any): Promise<any> => {
         .container(helper.containerId)
         .items
         .query(querySpec, { enableCrossPartitionQuery: true }).toArray();
+
+
+    for (let index = 0; index < results.length; index++) {
+        results[index] = new Person(results[index]);
+    }
     
     console.log(JSON.stringify(results, null, 2));
      
