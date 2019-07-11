@@ -78,14 +78,33 @@ const getOne = async (id: any): Promise<any> => {
 
 const getMany = async (req: any): Promise<any> => {
     console.log('gettingMany');
+
+    const ids = req.body.ids as string[];
+    // Checks that body type is valid
+    if (!Array.isArray(ids) || ids == undefined) 
+        throw Error('Body should be an object with an ids field of type array.')
+
+    let query = "SELECT * FROM root r WHERE r.id IN ";
+    for (let i = 0; i < ids.length; i++) {
+        const element = ids[i];
+        // Checks that element is a string
+        if (typeof element !== 'string')
+            throw Error('Each element in ids array should be a string');
+
+        if (i == 0) {
+            // Beginning of array
+            query += `('${element}', `;
+        } else if (i == ids.length - 1) {
+            // End of array
+            query += `'${element}')`
+        } else {
+            // Middle of array
+            query += `'${element}', `
+        }
+    }
+
     const querySpec: SqlQuerySpec = {
-        query: "",
-        parameters: [
-            {
-                name: "",
-                value: ""
-            }
-        ]
+        query: query
     };
 
     const { result: results } = await client
@@ -93,10 +112,10 @@ const getMany = async (req: any): Promise<any> => {
         .container(helper.containerId)
         .items
         .query(querySpec, { enableCrossPartitionQuery: true }).toArray();
-     
+    
     console.log(JSON.stringify(results, null, 2));
      
-    return req;
+    return results;
 }
 //#endregion
 
