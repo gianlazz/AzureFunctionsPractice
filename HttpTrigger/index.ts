@@ -68,11 +68,28 @@ const getOne = async (id: any): Promise<any> => {
         .container(helper.containerId)
         .items
         .query(querySpec, { enableCrossPartitionQuery: true }).toArray();
-    
+        
     if (results.length === 1) {
-        const result = results[0] as Person;
-        const person = { id: result.id, firstName: result.firstName, lastName: result.lastName } as Person;
-        return person;
+        const result = results[0];
+        let newPersonObj = new Person();
+        // Object.keys(newPersonObj).forEach(key => {
+        //     if (result.hasOwnProperty(key))
+        //         newPersonObj[key] = result[key]
+        // });
+
+        // return newPersonObj;
+
+        for (let key in newPersonObj) 
+            if (result.hasOwnProperty(key)) 
+                newPersonObj[key] = result[key];
+            
+        
+        
+        return newPersonObj;
+
+        // const result = results[0] as Person;
+        // // const person = { id: result.id, firstName: result.firstName, lastName: result.lastName } as Person;
+        // return person;
     }
 }
 

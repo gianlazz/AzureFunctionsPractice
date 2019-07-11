@@ -1,7 +1,7 @@
 export class Person {
 
-    id: string;
-    firstName: string;
-    lastName: string;
+    id: string = undefined;
+    firstName: string = undefined;
+    lastName: string = undefined;
 
 }
