@@ -8,7 +8,7 @@ afterAll(async () => {
 
 });
 
-let createdPersons: Person[] = [];
+let createdPersons: Person[] = new Array<Person>();
 
 describe("HttpTrigger", () => {
     it("POST", async () => {
@@ -42,10 +42,37 @@ describe("HttpTrigger", () => {
 
     it("GET many", async () => {
         // Arrange
+        console.log('Posting more to test getMany.')
+        for (let i = 0; i < 2; i++) {
+            const person = new Person();
+            person.firstName = "John";
+            person.lastName = "Doe";
+            
+            const response = await Axios.post('http://localhost:7071/api/HttpTrigger', person);
+            person.id = response.data;
+            createdPersons.push(person);
+        }
+
+        let ids: string[] = [];
+        for (let index = 0; index < createdPersons.length; index++) {
+            const person = createdPersons[index];
+            ids.push(person.id);
+        }
+        const requestBodyData = {
+            ids
+        };
 
         // Act
+        console.log("Running GET getMany against REST.");
+        const response = await Axios.get('http://localhost:7071/api/HttpTrigger', {
+            data: requestBodyData
+        });
+        const returnedPeople: Person[] = response.data;
 
         // Assert
+        console.log('REST GET getMany results:')
+        console.log(JSON.stringify(returnedPeople, null, 2));
+        expect(returnedPeople).not.toBeNull();
     });
 
     it("DELETE", async () => {
