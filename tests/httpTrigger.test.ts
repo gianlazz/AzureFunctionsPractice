@@ -17,11 +17,13 @@ describe("HttpTrigger", () => {
         person.firstName = "John";
         person.lastName = "Doe";
         console.log("Running POST/create against REST.");
+        
         // Act
         const response = await Axios.post('http://localhost:7071/api/HttpTrigger', person);
         const insertedPersonId = response.data;
         person.id = insertedPersonId;
         createdPersons.push(person);
+        
         // Assert
         console.log(`DB Id of newly posted/inserted person ${insertedPersonId}`);
         expect(response).not.toBeNull();
@@ -30,10 +32,12 @@ describe("HttpTrigger", () => {
     it("GET", async () => {
         // Arrange
         console.log("Running GET against REST.");
+        
         // Act
         let url = `http://localhost:7071/api/HttpTrigger?id=${createdPersons[0].id}`;
         const response = await Axios.get(url);
         const returnedPerson: Person = response.data;
+        
         // Assert
         console.log(`REST GET results from person id ${createdPersons[0].id}:`);
         console.log(JSON.stringify(returnedPerson), null, 2);
@@ -77,10 +81,18 @@ describe("HttpTrigger", () => {
 
     it("DELETE", async () => {
         // Arrange
-
+        const idOfPersonToDelete = createdPersons[createdPersons.length - 1].id;
+        const url = `http://localhost:7071/api/HttpTrigger?id=${idOfPersonToDelete}`;
+        
         // Act
+        console.log("RUNNING DELETE against REST.");
+        const response = await Axios.delete(url);
 
         // Assert
+        console.log('REST DELETE results:');
+        console.log(JSON.stringify(response.data, null, 2));
+        expect(response.data).not.toBeNull();
+        expect(response.data).toEqual(idOfPersonToDelete);
     });
 
     it("PATCH", async () => {

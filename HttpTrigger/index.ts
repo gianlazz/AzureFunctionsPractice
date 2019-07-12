@@ -35,6 +35,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             context.res.body = await deleteOne(id);
             console.log(`Deleted object ${id}`);
             context.log(`Deleted object ${id}`);
+            break;
         default:
             context.res.body = {
                 status: 400,
