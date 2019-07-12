@@ -97,9 +97,15 @@ describe("HttpTrigger", () => {
 
     it("PATCH", async () => {
         // Arrange
-
+        const personToUpdate = createdPersons[0];
+        personToUpdate.firstName = "NewFirstName";
+        personToUpdate.lastName = "NewLastName";
+        
         // Act
-
+        const response = await Axios.patch('http://localhost:7071/api/HttpTrigger', personToUpdate);
+        const updatePerson = response.data;
+        
         // Assert
+        expect(updatePerson).not.toBeNull();
     });
-})
+});
