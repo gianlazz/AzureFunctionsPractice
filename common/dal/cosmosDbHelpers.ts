@@ -1,12 +1,15 @@
 import { CosmosClient, PartitionKeyDefinition, Database } from "@azure/cosmos";
 
 
-const getClient = (): CosmosClient => {
-    const endpoint = process.env['COSMOS_SQL_ENDPOINT']
+export const getClient = (endpoint?: string, masterKey?: string): CosmosClient => {
+    if (!endpoint)
+        endpoint = process.env['COSMOS_SQL_ENDPOINT']
     if (!endpoint) {
         throw Error('COSMOS_SQL_ENDPOINT environment variable not found.');
     }
-    const masterKey = process.env['COSMOS_SQL_MASTERKEY']
+
+    if (!masterKey)
+        masterKey = process.env['COSMOS_SQL_MASTERKEY']
     if (!masterKey) {
         throw Error('COSMOS_SQL_MASTERKEY environment variable not found.');
     }
@@ -20,7 +23,7 @@ const getClient = (): CosmosClient => {
     return client;
 }
 
-const getDatabase = (databaseId: string): Database => {
+export const getDatabase = (databaseId: string): Database => {
     try {
         const client = getClient();
         const database = client.database(databaseId); 
@@ -30,7 +33,7 @@ const getDatabase = (databaseId: string): Database => {
     }
 };
 
-const createDatabase = async (databaseId: string) => {
+export const createDatabase = async (databaseId: string) => {
     try {
         const client = getClient();
         const database = await client.databases.createIfNotExists({id: databaseId });
@@ -41,7 +44,7 @@ const createDatabase = async (databaseId: string) => {
 };
 
 
-const readDatabase = async (databaseId: string) => {
+export const readDatabase = async (databaseId: string) => {
     try {
         const client = getClient();
         const definition = await client.database(databaseId).read();
@@ -51,7 +54,7 @@ const readDatabase = async (databaseId: string) => {
     }
 };
 
-const createContainer = async (databaseId: string, containerId: string) => {
+export const createContainer = async (databaseId: string, containerId: string) => {
     try {
         const client = getClient();
         const result = await client.database(databaseId).containers.createIfNotExists(
@@ -68,7 +71,7 @@ const createContainer = async (databaseId: string, containerId: string) => {
     }
 };
 
-const readContainer = async (databaseId: string, containerId: string) => {
+export const readContainer = async (databaseId: string, containerId: string) => {
     try {
         const client = getClient();
         const result = await client.database(databaseId).container(containerId).read();
@@ -78,11 +81,12 @@ const readContainer = async (databaseId: string, containerId: string) => {
     }
 };
 
-const cleanup = async (databaseId: string) => {
+export const cleanup = async (databaseId: string, client?: CosmosClient) => {
     try {
-        const client = getClient();
+        if (!client)
+            client = getClient();
         await client.database(databaseId).delete();
     } catch (error) {
-        
+        throw Error(error);
     }
 }

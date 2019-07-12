@@ -1,11 +1,18 @@
 import { Person } from "../common/dto/person";
 import Axios from "axios";
+import { CosmosSqlHelper } from "../common/dal/cosmosSqlHelper";
+import * as dbHelpers from '../common/dal/cosmosDbHelpers';
+import * as fs from 'fs';
 
 beforeAll(async () => {
     jest.setTimeout(30000);
 });
 afterAll(async () => {
-
+    console.log(`Deleting PracticeDb after tests to cleanup.`);
+    const settings = require('../local.settings.json');
+    const client = dbHelpers.getClient(settings.Values.COSMOS_SQL_ENDPOINT, settings.Values.COSMOS_SQL_MASTERKEY);
+    await dbHelpers.cleanup("PracticeDb", client);
+    console.log(`Deleted PracticeDb from tests.`);
 });
 
 let createdPersons: Person[] = new Array<Person>();
