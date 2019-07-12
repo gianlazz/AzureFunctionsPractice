@@ -20,6 +20,7 @@ export class CosmosSqlHelper {
         if (!this.masterKey) {
             throw Error('COSMOS_SQL_MASTERKEY environment variable not found.');
         }
+        
         this.databaseId = (databaseId) ? databaseId :  "PracticeDb";
         this.containerId = (containerId) ? containerId : "People";
         this.getClient();
@@ -98,6 +99,10 @@ export class CosmosSqlHelper {
         } catch (error) {
             throw Error(error);
         }
+    }
+
+    async cleanup(databaseId: string) {
+        await this.client.database(databaseId).delete();
     }
 
 }
