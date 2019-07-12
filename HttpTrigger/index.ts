@@ -128,7 +128,7 @@ const getMany = async (req: any): Promise<any> => {
 const insertOne = async (req): Promise<any> => {
     console.log('insertingOne');
     let person = req.body as Person;
-    const item = await client
+    const response = await client
         .database(helper.databaseId)
         .container(helper.containerId)
         .items
@@ -142,13 +142,13 @@ const insertOne = async (req): Promise<any> => {
 const updateOne = async (req, id): Promise<any> => {
     console.log('updatingOne');
     let person = new Person(req.body);
-    const { item } = await client
+    const response = await client
         .database(helper.databaseId)
         .container(helper.containerId)
         .item(id)
         .replace(person);
 
-    person = new Person(item);
+    person = new Person(response);
     console.log(JSON.stringify(person, null, 2));
     
     return person;

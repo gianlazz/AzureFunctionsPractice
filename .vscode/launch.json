@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Attach to Node Functions",
             "type": "node",
@@ -19,7 +18,13 @@
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "preLaunchTask": "func: host start"
+            "preLaunchTask": "func: host start",
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Functions/Jest",
+            "configurations": ["Jest Tests", "Attach to Node Functions"]
         }
     ]
 }

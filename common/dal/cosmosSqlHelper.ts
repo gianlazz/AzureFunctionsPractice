@@ -11,7 +11,7 @@ export class CosmosSqlHelper {
     client: CosmosClient;
     initialized: boolean = false;
 
-    constructor() {
+    constructor(databaseId?: string, containerId?: string) {
         this.endpoint = process.env['COSMOS_SQL_ENDPOINT']
         if (!this.endpoint) {
             throw Error('COSMOS_SQL_ENDPOINT environment variable not found.');
@@ -20,8 +20,8 @@ export class CosmosSqlHelper {
         if (!this.masterKey) {
             throw Error('COSMOS_SQL_MASTERKEY environment variable not found.');
         }
-        this.databaseId = "PracticeDb";
-        this.containerId = "People";
+        this.databaseId = (databaseId) ? databaseId :  "PracticeDb";
+        this.containerId = (containerId) ? containerId : "People";
         this.getClient();
     }
 
