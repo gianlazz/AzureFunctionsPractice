@@ -1,4 +1,4 @@
-import { CosmosClient, PartitionKeyDefinition, Database } from "@azure/cosmos";
+import { CosmosClient, Database } from "@azure/cosmos";
 
 
 export const getClient = (endpoint?: string, masterKey?: string): CosmosClient => {

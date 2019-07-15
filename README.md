@@ -12,8 +12,8 @@
 - [Authentication](#authentication)
 - [Azure CosmosDB](#azure-cosmosdb)
 - [Deploying](#deploying)
-- [Postman Testing](#postman-testing)
-- [Routing](#routing)
+- [Testing](#postman-testing)
+- [Logging](#logging)
 
 ## Typescript Functions App QuickStart
 
@@ -157,7 +157,15 @@ Azure Resource Explorer(ARM) Templates
 - https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
 - [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
 
-## Postman Testing
+## Testing
+
+There are example tests for the RESTful CRUD operations. They can be run with the debugger. These are implemented with ts-jest to add TypeScript support to the jest testing library.
+
+Run/Debug Tests:
+
+![alt test](https://media.giphy.com/media/QsPgzcFhSlgPe44zJy/source.gif)
+
+During development Postman was used to hit the endpoints.
 
 - https://www.getpostman.com/downloads/
 

@@ -27,7 +27,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             context.log(`Inserted object ${id}`);
             break;
         case "PATCH":
-             context.res.body = await updateOne(req, id);
+            context.res.body = await updateOne(req, id);
             console.log(`Updated object ${id}`);
             context.log(`Updated object ${id}`);
             break;
