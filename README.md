@@ -3,7 +3,7 @@
 ## Examples Illustrated
 - [x] Multi endpoint azure function REST
 - [x] Azure Active Directory Authentication With OAuth
-- [ ] Azure CosmosDB Persistence For CRUD Operations From REST API
+- [x] Azure CosmosDB Persistence For CRUD Operations From REST API
 - [ ] GitHub Build/Deployment Hook
 - [ ] ARM Template Deployment
 
