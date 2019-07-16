@@ -1,5 +1,7 @@
 # Azure Functions Serverless Typescript Practice
 
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+
 ## Examples Illustrated
 - [x] Multi endpoint azure function REST
 - [x] Azure Active Directory Authentication With OAuth
@@ -166,6 +168,7 @@ Azure Resource Explorer(ARM) Templates
     ```
 - https://stackoverflow.com/questions/45268658/easy-authentication-and-authorization-in-azure-function-app-using-arm-template
 - https://stackoverflow.com/questions/54411480/arm-template-web-app-authentication-settings-not-working
+- https://azure.microsoft.com/en-us/blog/deploy-to-azure-button-for-azure-websites-2/
 - https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
 - [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
 
