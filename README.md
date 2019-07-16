@@ -153,6 +153,17 @@ const endpoint = process.env['COSMOS_SQL_ENDPOINT']
 
 Azure Resource Explorer(ARM) Templates
 - https://github.com/Azure/azure-quickstart-templates/tree/master/101-function-app-create-dynamic
+- https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-quickstart-create-templates-use-visual-studio-code?tabs=CLI
+    - https://shell.azure.com/
+    - Enter the following into the azure shell after uploading the arm template for a quick start on deploying ARM Templates
+    ```
+    echo "Enter the Resource Group name:" &&
+    read resourceGroupName &&
+    echo "Enter the location (i.e. centralus):" &&
+    read location &&
+    az group create --name $resourceGroupName --location "$location" &&
+    az group deployment create --resource-group $resourceGroupName --template-file "$HOME/azuredeploy.json"
+    ```
 
 - https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
 - [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
