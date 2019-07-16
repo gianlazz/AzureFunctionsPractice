@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverfarms_WestUSPlan_name": {
+            "value": "WestUSPlan"
+        },
+        "sites_AzureFunctionsPractice_name": {
+            "value": "AzureFunctionsPractice"
+        },
+        "components_AzureFunctionsPractice_name": {
+            "value": "AzureFunctionsPractice"
+        },
+        "storageAccounts_azurefunctionspractice_name": {
+            "value": "AzureFunctionsPractice"
+        },
+        "databaseAccounts_cosmos_db_sql_practice_name": {
+            "value": "cosmos-db-sql-practice"
+        },
+        "actionGroups_Application%20Insights%20Smart%20Detection_name": {
+            "value": "Application%20Insights%20Smart%20Detection"
+        }
+    }
+}
