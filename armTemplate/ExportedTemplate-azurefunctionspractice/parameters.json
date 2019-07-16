@@ -12,7 +12,7 @@
             "value": "AzureFunctionsPractice"
         },
         "storageAccounts_azurefunctionspractice_name": {
-            "value": "AzureFunctionsPractice"
+            "value": "azurefunctionspractice"
         },
         "databaseAccounts_cosmos_db_sql_practice_name": {
             "value": "cosmos-db-sql-practice"
