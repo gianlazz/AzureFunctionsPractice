@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "gian"
+        },
+        "location": {
+            "value": "australiacentral"
+        },
+        "locationName": {
+            "value": "Australia Central"
+        },
+        "defaultExperience": {
+            "value": "Core (SQL)"
+        },
+        "isZoneRedundant": {
+            "value": "false"
+        }
+    }
+}
