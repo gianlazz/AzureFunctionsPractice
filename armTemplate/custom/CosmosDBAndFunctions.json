@@ -136,7 +136,7 @@
                 },
                 {
                     "name": "FUNCTIONS_WORKER_RUNTIME",
-                    "value": "dotnet"
+                    "value": "[variables('functionWorkerRuntime')]"
                 }
                 ]
             }
