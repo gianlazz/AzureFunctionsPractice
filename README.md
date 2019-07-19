@@ -169,6 +169,8 @@ Azure Resource Explorer(ARM) Templates
 - https://stackoverflow.com/questions/45268658/easy-authentication-and-authorization-in-azure-function-app-using-arm-template
 - https://stackoverflow.com/questions/54411480/arm-template-web-app-authentication-settings-not-working
 - https://azure.microsoft.com/en-us/blog/deploy-to-azure-button-for-azure-websites-2/
+- http://usergroup.tv/videos/using-azure-arm-templates-for-dev-and-test-environments
+- https://stackoverflow.com/questions/41458346/arm-template-json-dynamic-connectionstring
 - https://peteskelly.com/deploy-an-azure-function-app-using-azure-arm-templates/
 - [(YouTube) Best practices Using Azure Resource Manager (ARM) Templates](https://www.youtube.com/watch?v=myYTGsONrn0)
 

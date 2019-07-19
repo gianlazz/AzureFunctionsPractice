@@ -142,6 +142,73 @@
             }
             }
         },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_AzureFunctionsPractice_name'), '/web')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AzureFunctionsPractice_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php"
+                ],
+                "publishingUsername": "$AzureFunctionsPractice",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "autoHealEnabled": false,
+                "siteAuthEnabled": true,
+                "siteAuthSettings": {
+                    "enabled": true,
+                    "unauthenticatedClientAction": "RedirectToLoginPage",
+                    "tokenStoreEnabled": true,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": "AzureActiveDirectory",
+                    "clientId": "5aeb5f28-b119-4019-bdfe-34468b28afd3",
+                    "clientSecret": null,
+                    "clientSecretCertificateThumbprint": null,
+                    "issuer": "https://sts.windows.net/13118708-99c4-4f22-9dfd-c588c56e2785/",
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false
+                },
+                "cors": {
+                    "allowedOrigins": [
+                        "https://functions.azure.com",
+                        "https://functions-staging.azure.com",
+                        "https://functions-next.azure.com"
+                    ],
+                    "supportCredentials": false
+                },
+                "localMySqlEnabled": false,
+                "http20Enabled": true,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
     {
         "apiVersion": "2018-05-01-preview",
         "name": "[variables('applicationInsightsName')]",
@@ -154,7 +221,7 @@
             "ApplicationId": "[variables('applicationInsightsName')]",
             "Request_Source": "IbizaWebAppExtensionCreate"
         }
-        }
+    }
         
     ],
     "outputs": {}
