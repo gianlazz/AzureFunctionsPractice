@@ -166,8 +166,12 @@ Azure Resource Explorer(ARM) Templates
     az group create --name $resourceGroupName --location "$location" &&
     az group deployment create --resource-group $resourceGroupName --template-file "$HOME/azuredeploy.json"
     ```
+ARM Template Auth Config:
 - https://stackoverflow.com/questions/45268658/easy-authentication-and-authorization-in-azure-function-app-using-arm-template
 - https://stackoverflow.com/questions/54411480/arm-template-web-app-authentication-settings-not-working
+- https://stackoverflow.com/questions/35846300/is-it-possible-to-script-the-configuration-of-azure-app-service-authentication
+- https://stackoverflow.com/questions/51118555/automtically-create-app-service-identity-when-deploying-an-arm-template-for-app
+
 - https://azure.microsoft.com/en-us/blog/deploy-to-azure-button-for-azure-websites-2/
 - http://usergroup.tv/videos/using-azure-arm-templates-for-dev-and-test-environments
 - https://stackoverflow.com/questions/41458346/arm-template-json-dynamic-connectionstring
