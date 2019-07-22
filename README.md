@@ -23,11 +23,11 @@
 - Enter 'aadClientId' & 'aadTenant'
     - These details must be gotten from the azure portal
     - Go to Azure Active Directory in Azure Portal
-    - Select Properties under the Manage section on the side
-    - Copy Directory ID value, this will look like 13118708-99c4-4f22-9dfd-c588c56e2785 and be your 'aadTenant'
-    - Click App registrations
+    - Select App registrations under the Manage section on the side
     - Select an existing app or select New registration
     - After that copy the APPLICATION (CLIENT) ID, this will be your 'aadClientId'
+    - Select Properties under the Manage section on the side
+    - Copy Directory ID value, this will look like 13118708-99c4-4f22-9dfd-c588c56e2785 and be your 'aadTenant'
 
 ## Typescript Functions App QuickStart
 
