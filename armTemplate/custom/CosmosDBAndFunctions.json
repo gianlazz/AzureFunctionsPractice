@@ -5,14 +5,25 @@
         "appName": {
             "type": "string"
         },
-        "locationName": {
-            "type": "string"
-        },
         "defaultExperience": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "DocumentDB",
+            "allowedValues": ["Table", "Graph", "DocumentDB", "MongoDB"],
+            "metadata": {
+                "description": "API for CosmosDB."
+            }
         },
-        "isZoneRedundant": {
-            "type": "string"
+        "aadClientId": {
+            "type": "string",
+            "metadata": {
+                "description": "ClientID from generating an Azure Active Directory app."
+            }
+        },
+        "aadTenant": {
+            "type": "string",
+            "metadata": {
+                "description": "ClientID from generating an Azure Active Directory app."
+            }
         },
         "storageAccountType": {
             "type": "string",
@@ -59,7 +70,7 @@
                     {
                         "id": "[concat(parameters('appName'), '-', parameters('location'))]",
                         "failoverPriority": 0,
-                        "locationName": "[parameters('locationName')]"
+                        "locationName": "[parameters('location')]"
                     }
                 ],
                 "enableMultipleWriteLocations": false,
@@ -164,8 +175,8 @@
                       "unauthenticatedClientAction": "RedirectToLoginPage",
                       "tokenStoreEnabled": true,
                       "defaultProvider": "AzureActiveDirectory",
-                      "clientId": "5aeb5f28-b119-4019-bdfe-34468b28afd3",
-                      "issuer": "https://sts.windows.net/13118708-99c4-4f22-9dfd-c588c56e2785/"
+                      "clientId": "[parameters('aadClientId')]",
+                      "issuer": "[concat('https://sts.windows.net/', parameters('aadTenant'), '/')]"
                     }
                   }
             ]

@@ -6,8 +6,8 @@
 - [x] Multi endpoint azure function REST
 - [x] Azure Active Directory Authentication With OAuth
 - [x] Azure CosmosDB Persistence For CRUD Operations From REST API
+- [x] ARM Template Deployment
 - [ ] GitHub Build/Deployment Hook
-- [ ] ARM Template Deployment
 
 ## Table of Contents:
 - [Typescript Functions App QuickStart](#typescript-functions-app-quickstart)
@@ -16,6 +16,18 @@
 - [Deploying](#deploying)
 - [Testing](#postman-testing)
 - [Logging](#logging)
+
+## Deploy To Azure QuickStart
+- Click Deploy to Azure button
+- Enter the name for your app
+- Enter 'aadClientId' & 'aadTenant'
+    - These details must be gotten from the azure portal
+    - Go to Azure Active Directory in Azure Portal
+    - Select Properties under the Manage section on the side
+    - Copy Directory ID value, this will look like 13118708-99c4-4f22-9dfd-c588c56e2785 and be your 'aadTenant'
+    - Click App registrations
+    - Select an existing app or select New registration
+    - After that copy the APPLICATION (CLIENT) ID, this will be your 'aadClientId'
 
 ## Typescript Functions App QuickStart
 
@@ -171,7 +183,10 @@ ARM Template Auth Config:
 - https://stackoverflow.com/questions/54411480/arm-template-web-app-authentication-settings-not-working
 - https://stackoverflow.com/questions/35846300/is-it-possible-to-script-the-configuration-of-azure-app-service-authentication
 - https://stackoverflow.com/questions/51118555/automtically-create-app-service-identity-when-deploying-an-arm-template-for-app
+- https://helpdesk.kaseya.com/hc/en-gb/articles/115002521251-How-Do-I-Find-My-Azure-AD-Tenant-Name-
+- https://docs.microsoft.com/en-us/onedrive/find-your-office-365-tenant-id
 
+More Resources Used:
 - https://azure.microsoft.com/en-us/blog/deploy-to-azure-button-for-azure-websites-2/
 - http://usergroup.tv/videos/using-azure-arm-templates-for-dev-and-test-environments
 - https://stackoverflow.com/questions/41458346/arm-template-json-dynamic-connectionstring

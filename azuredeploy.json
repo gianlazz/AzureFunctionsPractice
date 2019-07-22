@@ -1,338 +1,199 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "serverfarms_WestUSPlan_name": {
-            "defaultValue": "WestUSPlan",
-            "type": "String"
+        "appName": {
+            "type": "string"
         },
-        "sites_AzureFunctionsPractice_name": {
-            "defaultValue": "AzureFunctionsPractice",
-            "type": "String",
+        "defaultExperience": {
+            "type": "string",
+            "defaultValue": "DocumentDB",
+            "allowedValues": ["Table", "Graph", "DocumentDB", "MongoDB"],
             "metadata": {
-                "description": "The name of the function app that you wish to create."
-              }
+                "description": "API for CosmosDB."
+            }
         },
-        "components_AzureFunctionsPractice_name": {
-            "defaultValue": "AzureFunctionsPractice",
-            "type": "String"
+        "aadClientId": {
+            "type": "string",
+            "metadata": {
+                "description": "ClientID from generating an Azure Active Directory app."
+            }
         },
-        "storageAccounts_azurefunctionspractice_name": {
-            "defaultValue": "azurefunctionspractice",
-            "type": "String"
+        "aadTenant": {
+            "type": "string",
+            "metadata": {
+                "description": "ClientID from generating an Azure Active Directory app."
+            }
         },
-        "databaseAccounts_cosmos_db_sql_practice_name": {
-            "defaultValue": "cosmos-db-sql-practice",
-            "type": "String"
-        },
-        "actionGroups_Application%20Insights%20Smart%20Detection_name": {
-            "defaultValue": "Application%20Insights%20Smart%20Detection",
-            "type": "String"
-        }
+        "storageAccountType": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "allowedValues": ["Standard_LRS", "Standard_GRS", "Standard_RAGRS"],
+            "metadata": {
+              "description": "Storage Account type"
+            }
+          },
+          "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+              "description": "Location for all resources."
+            }
+          },
+          "runtime": {
+            "type": "string",
+            "defaultValue": "node",
+            "allowedValues": ["node", "dotnet", "java"],
+            "metadata": {
+              "description": "The language worker runtime to load in the function app."
+            }
+          }
     },
-    "variables": {},
+    "variables": {
+        "functionAppName": "[parameters('appName')]",
+        "hostingPlanName": "[parameters('appName')]",
+        "applicationInsightsName": "[parameters('appName')]",
+        "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'azfunctions')]",
+        "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "functionWorkerRuntime": "[parameters('runtime')]"
+    },
     "resources": [
         {
-            "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2015-04-08",
-            "name": "[parameters('databaseAccounts_cosmos_db_sql_practice_name')]",
-            "location": "West US",
-            "tags": {
-                "defaultExperience": "Core (SQL)"
-            },
             "kind": "GlobalDocumentDB",
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "name": "[parameters('appName')]",
+            "location": "[parameters('location')]",
             "properties": {
-                "enableAutomaticFailover": false,
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "id": "[concat(parameters('appName'), '-', parameters('location'))]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('location')]"
+                    }
+                ],
                 "enableMultipleWriteLocations": false,
                 "isVirtualNetworkFilterEnabled": false,
                 "virtualNetworkRules": [],
-                "databaseAccountOfferType": "Standard",
-                "consistencyPolicy": {
-                    "defaultConsistencyLevel": "Session",
-                    "maxIntervalInSeconds": 5,
-                    "maxStalenessPrefix": 100
-                },
-                "locations": [
-                    {
-                        "locationName": "West US",
-                        "provisioningState": "Succeeded",
-                        "failoverPriority": 0,
-                        "isZoneRedundant": false
-                    }
-                ],
-                "capabilities": []
-            }
-        },
-        {
-            "type": "microsoft.insights/actionGroups",
-            "apiVersion": "2019-03-01",
-            "name": "[parameters('actionGroups_Application%20Insights%20Smart%20Detection_name')]",
-            "location": "Global",
-            "properties": {
-                "groupShortName": "SmartDetect",
-                "enabled": true,
-                "emailReceivers": [],
-                "smsReceivers": [],
-                "webhookReceivers": [],
-                "itsmReceivers": [],
-                "azureAppPushReceivers": [],
-                "automationRunbookReceivers": [],
-                "voiceReceivers": [],
-                "logicAppReceivers": [],
-                "azureFunctionReceivers": []
-            }
-        },
-        {
-            "type": "microsoft.insights/components",
-            "apiVersion": "2015-05-01",
-            "name": "[parameters('components_AzureFunctionsPractice_name')]",
-            "location": "westus",
-            "tags": {
-                "hidden-link:/subscriptions/204e71d7-b73d-4d47-a227-e082ff8123d6/resourceGroups/azurefunctionspractice/providers/Microsoft.Web/sites/AzureFunctionsPractice": "Resource"
+                "ipRangeFilter": "",
+                "dependsOn": []
             },
-            "kind": "web",
-            "properties": {
-                "Application_Type": "web",
-                "Flow_Type": "Redfield",
-                "Request_Source": "AppServiceEnablementCreate"
+            "tags": {
+                "defaultExperience": "[parameters('defaultExperience')]"
             }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2019-04-01",
-            "name": "[parameters('storageAccounts_azurefunctionspractice_name')]",
-            "location": "westus",
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
+            "name": "[variables('storageAccountName')]",
+            "apiVersion": "2016-12-01",
+            "location": "[parameters('location')]",
             "kind": "Storage",
-            "properties": {
-                "networkAcls": {
-                    "bypass": "AzureServices",
-                    "virtualNetworkRules": [],
-                    "ipRules": [],
-                    "defaultAction": "Allow"
-                },
-                "supportsHttpsTrafficOnly": false,
-                "encryption": {
-                    "services": {
-                        "file": {
-                            "enabled": true
-                        },
-                        "blob": {
-                            "enabled": true
-                        }
-                    },
-                    "keySource": "Microsoft.Storage"
-                }
+            "sku": {
+              "name": "[parameters('storageAccountType')]"
             }
-        },
+          },
         {
             "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2016-09-01",
-            "name": "[parameters('serverfarms_WestUSPlan_name')]",
-            "location": "West US",
+            "apiVersion": "2018-02-01",
+            "name": "[variables('hostingPlanName')]",
+            "location": "[parameters('location')]",
             "sku": {
-                "name": "Y1",
-                "tier": "Dynamic",
-                "size": "Y1",
-                "family": "Y",
-                "capacity": 0
+              "name": "Y1",
+              "tier": "Dynamic"
             },
-            "kind": "functionapp",
             "properties": {
-                "name": "[parameters('serverfarms_WestUSPlan_name')]",
-                "perSiteScaling": false,
-                "reserved": false,
-                "targetWorkerCount": 0,
-                "targetWorkerSizeId": 0
+              "name": "[variables('hostingPlanName')]",
+              "computeMode": "Dynamic"
             }
-        },
+          },
         {
-            "type": "Microsoft.Storage/storageAccounts/blobServices",
-            "apiVersion": "2019-04-01",
-            "name": "[concat(parameters('storageAccounts_azurefunctionspractice_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_azurefunctionspractice_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                },
-                "deleteRetentionPolicy": {
-                    "enabled": false
-                }
-            }
-        },
-        {
+            "apiVersion": "2015-08-01",
             "type": "Microsoft.Web/sites",
-            "apiVersion": "2016-08-01",
-            "name": "[parameters('sites_AzureFunctionsPractice_name')]",
-            "location": "West US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_WestUSPlan_name'))]"
-            ],
+            "name": "[variables('functionAppName')]",            
+            "location": "[parameters('location')]",    
             "kind": "functionapp",
-            "properties": {
-                "enabled": true,
-                "hostNameSslStates": [
-                    {
-                        "name": "azurefunctionspractice.azurewebsites.net",
-                        "sslState": "Disabled",
-                        "hostType": "Standard"
-                    },
-                    {
-                        "name": "azurefunctionspractice.scm.azurewebsites.net",
-                        "sslState": "Disabled",
-                        "hostType": "Repository"
-                    }
-                ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_WestUSPlan_name'))]",
-                "reserved": false,
-                "scmSiteAlsoStopped": false,
-                "clientAffinityEnabled": false,
-                "clientCertEnabled": false,
-                "hostNamesDisabled": false,
-                "containerSize": 1536,
-                "dailyMemoryTimeQuota": 0,
-                "httpsOnly": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/config",
-            "apiVersion": "2016-08-01",
-            "name": "[concat(parameters('sites_AzureFunctionsPractice_name'), '/web')]",
-            "location": "West US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AzureFunctionsPractice_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms',variables('hostingPlanName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('appName'))]"
             ],
             "properties": {
-                "numberOfWorkers": 1,
-                "defaultDocuments": [
-                    "Default.htm",
-                    "Default.html",
-                    "Default.asp",
-                    "index.htm",
-                    "index.html",
-                    "iisstart.htm",
-                    "default.aspx",
-                    "index.php"
-                ],
-                "netFrameworkVersion": "v4.0",
-                "phpVersion": "5.6",
-                "pythonVersion": "",
-                "nodeVersion": "",
-                "linuxFxVersion": "",
-                "requestTracingEnabled": false,
-                "remoteDebuggingEnabled": false,
-                "remoteDebuggingVersion": "VS2017",
-                "httpLoggingEnabled": false,
-                "logsDirectorySizeLimit": 35,
-                "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$AzureFunctionsPractice",
-                "scmType": "None",
-                "use32BitWorkerProcess": true,
-                "webSocketsEnabled": false,
-                "alwaysOn": false,
-                "appCommandLine": "",
-                "managedPipelineMode": "Integrated",
-                "virtualApplications": [
-                    {
-                        "virtualPath": "/",
-                        "physicalPath": "site\\wwwroot",
-                        "preloadEnabled": false,
-                        "virtualDirectories": null
-                    }
-                ],
-                "winAuthAdminState": 0,
-                "winAuthTenantState": 0,
-                "customAppPoolIdentityAdminState": false,
-                "customAppPoolIdentityTenantState": false,
-                "loadBalancing": "LeastRequests",
-                "routingRules": [],
-                "experiments": {
-                    "rampUpRules": []
-                },
-                "autoHealEnabled": false,
-                "vnetName": "",
-                "siteAuthEnabled": true,
-                "siteAuthSettings": {
-                    "enabled": true,
-                    "unauthenticatedClientAction": "RedirectToLoginPage",
-                    "tokenStoreEnabled": true,
-                    "allowedExternalRedirectUrls": null,
-                    "defaultProvider": "AzureActiveDirectory",
-                    "clientId": "5aeb5f28-b119-4019-bdfe-34468b28afd3",
-                    "clientSecret": null,
-                    "clientSecretCertificateThumbprint": null,
-                    "issuer": "https://sts.windows.net/13118708-99c4-4f22-9dfd-c588c56e2785/",
-                    "allowedAudiences": null,
-                    "additionalLoginParams": null,
-                    "isAadAutoProvisioned": false,
-                    "googleClientId": null,
-                    "googleClientSecret": null,
-                    "googleOAuthScopes": null,
-                    "facebookAppId": null,
-                    "facebookAppSecret": null,
-                    "facebookOAuthScopes": null,
-                    "twitterConsumerKey": null,
-                    "twitterConsumerSecret": null,
-                    "microsoftAccountClientId": null,
-                    "microsoftAccountClientSecret": null,
-                    "microsoftAccountOAuthScopes": null
-                },
-                "cors": {
-                    "allowedOrigins": [
-                        "https://functions.azure.com",
-                        "https://functions-staging.azure.com",
-                        "https://functions-next.azure.com"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "AzureWebJobsDashboard",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTSHARE",
+                            "value": "[toLower(variables('functionAppName'))]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', variables('applicationInsightsName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "[variables('functionWorkerRuntime')]"
+                        },
+                        {
+                            "name": "COSMOS_SQL_MASTERKEY",
+                            "value": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('appName')), '2015-11-06').primaryMasterKey]"
+                        },
+                        {
+                            "name": "COSMOS_SQL_ENDPOINT",
+                            "value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', parameters('appName'))).documentEndpoint]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "[concat(parameters('appName'), '/authsettings')]",
+                    "apiVersion": "2016-08-01",
+                    "type": "Microsoft.Web/sites/config",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                      "[resourceId('Microsoft.Web/sites', parameters('appName'))]"
                     ],
-                    "supportCredentials": false
-                },
-                "localMySqlEnabled": false,
-                "http20Enabled": true,
-                "minTlsVersion": "1.2",
-                "ftpsState": "AllAllowed",
-                "reservedInstanceCount": 0
-            }
+                    "properties": {
+                      "enabled": true,
+                      "unauthenticatedClientAction": "RedirectToLoginPage",
+                      "tokenStoreEnabled": true,
+                      "defaultProvider": "AzureActiveDirectory",
+                      "clientId": "[parameters('aadClientId')]",
+                      "issuer": "[concat('https://sts.windows.net/', parameters('aadTenant'), '/')]"
+                    }
+                  }
+            ]
         },
         {
-            "type": "Microsoft.Web/sites/hostNameBindings",
-            "apiVersion": "2016-08-01",
-            "name": "[concat(parameters('sites_AzureFunctionsPractice_name'), '/', parameters('sites_AzureFunctionsPractice_name'), '.azurewebsites.net')]",
-            "location": "West US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_AzureFunctionsPractice_name'))]"
-            ],
+            "apiVersion": "2018-05-01-preview",
+            "name": "[variables('applicationInsightsName')]",
+            "type": "microsoft.insights/components",
+            "location": "East US",
+            "tags": {
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('applicationInsightsName'))]": "Resource"
+            },
             "properties": {
-                "siteName": "AzureFunctionsPractice",
-                "hostNameType": "Verified"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2019-04-01",
-            "name": "[concat(parameters('storageAccounts_azurefunctionspractice_name'), '/default/azure-webjobs-hosts')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_azurefunctionspractice_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_azurefunctionspractice_name'))]"
-            ],
-            "properties": {
-                "publicAccess": "None"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2019-04-01",
-            "name": "[concat(parameters('storageAccounts_azurefunctionspractice_name'), '/default/azure-webjobs-secrets')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_azurefunctionspractice_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_azurefunctionspractice_name'))]"
-            ],
-            "properties": {
-                "publicAccess": "None"
+                "ApplicationId": "[variables('applicationInsightsName')]",
+                "Request_Source": "IbizaWebAppExtensionCreate"
             }
         }
-    ]
+    ],
+    "outputs": {}
 }
