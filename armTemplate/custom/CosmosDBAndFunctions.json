@@ -103,50 +103,50 @@
             "location": "[parameters('location')]",    
             "kind": "functionapp",
             "dependsOn": [
-            "[resourceId('Microsoft.Web/serverfarms',variables('hostingPlanName'))]",
-            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-            "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('appName'))]"
+                "[resourceId('Microsoft.Web/serverfarms',variables('hostingPlanName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('appName'))]"
             ],
             "properties": {
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
                 "siteConfig": {
                     "appSettings": [
-                    {
-                        "name": "AzureWebJobsDashboard",
-                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-                    },
-                    {
-                        "name": "AzureWebJobsStorage",
-                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-                    },
-                    {
-                        "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-                    },
-                    {
-                        "name": "WEBSITE_CONTENTSHARE",
-                        "value": "[toLower(variables('functionAppName'))]"
-                    },
-                    {
-                        "name": "FUNCTIONS_EXTENSION_VERSION",
-                        "value": "~2"
-                    },
-                    {
-                        "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                        "value": "[reference(resourceId('microsoft.insights/components/', variables('applicationInsightsName')), '2015-05-01').InstrumentationKey]"
-                    },
-                    {
-                        "name": "FUNCTIONS_WORKER_RUNTIME",
-                        "value": "[variables('functionWorkerRuntime')]"
-                    },
-                    {
-                        "name": "COSMOS_SQL_MASTERKEY",
-                        "value": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('appName')), '2015-11-06').primaryMasterKey]"
-                    },
-                    {
-                        "name": "COSMOS_SQL_ENDPOINT",
-                        "value": "[toLower(variables('functionAppName'))]"
-                    }
+                        {
+                            "name": "AzureWebJobsDashboard",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTSHARE",
+                            "value": "[toLower(variables('functionAppName'))]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', variables('applicationInsightsName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "[variables('functionWorkerRuntime')]"
+                        },
+                        {
+                            "name": "COSMOS_SQL_MASTERKEY",
+                            "value": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('appName')), '2015-11-06').primaryMasterKey]"
+                        },
+                        {
+                            "name": "COSMOS_SQL_ENDPOINT",
+                            "value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', parameters('appName'))).documentEndpoint]"
+                        }
                     ]
                 }
             }
@@ -199,20 +199,20 @@
                 "ftpsState": "AllAllowed",
                 "reservedInstanceCount": 0
             }
-    },
-    {
-        "apiVersion": "2018-05-01-preview",
-        "name": "[variables('applicationInsightsName')]",
-        "type": "microsoft.insights/components",
-        "location": "East US",
-        "tags": {
-            "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('applicationInsightsName'))]": "Resource"
         },
-        "properties": {
-            "ApplicationId": "[variables('applicationInsightsName')]",
-            "Request_Source": "IbizaWebAppExtensionCreate"
+        {
+            "apiVersion": "2018-05-01-preview",
+            "name": "[variables('applicationInsightsName')]",
+            "type": "microsoft.insights/components",
+            "location": "East US",
+            "tags": {
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('applicationInsightsName'))]": "Resource"
+            },
+            "properties": {
+                "ApplicationId": "[variables('applicationInsightsName')]",
+                "Request_Source": "IbizaWebAppExtensionCreate"
+            }
         }
-    }
     ],
     "outputs": {}
 }
