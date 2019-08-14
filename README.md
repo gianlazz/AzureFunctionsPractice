@@ -167,6 +167,8 @@ const endpoint = process.env['COSMOS_SQL_ENDPOINT']
 
 Azure Resource Explorer(ARM) Templates
 - https://github.com/Azure/azure-quickstart-templates/tree/master/101-function-app-create-dynamic
+- https://docs.microsoft.com/en-us/azure/templates/microsoft.web/2018-02-01/sites
+- https://docs.microsoft.com/en-us/azure/templates/microsoft.documentdb/2015-04-08/databaseaccounts
 - https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-quickstart-create-templates-use-visual-studio-code?tabs=CLI
     - https://shell.azure.com/
     - Enter the following into the azure shell after uploading the arm template for a quick start on deploying ARM Templates
@@ -179,12 +181,15 @@ Azure Resource Explorer(ARM) Templates
     az group deployment create --resource-group $resourceGroupName --template-file "$HOME/azuredeploy.json"
     ```
 ARM Template Auth Config:
+- https://docs.microsoft.com/en-us/azure/templates/microsoft.web/2018-11-01/sites/config-authsettings
 - https://stackoverflow.com/questions/45268658/easy-authentication-and-authorization-in-azure-function-app-using-arm-template
 - https://stackoverflow.com/questions/54411480/arm-template-web-app-authentication-settings-not-working
 - https://stackoverflow.com/questions/35846300/is-it-possible-to-script-the-configuration-of-azure-app-service-authentication
 - https://stackoverflow.com/questions/51118555/automtically-create-app-service-identity-when-deploying-an-arm-template-for-app
 - https://helpdesk.kaseya.com/hc/en-gb/articles/115002521251-How-Do-I-Find-My-Azure-AD-Tenant-Name-
 - https://docs.microsoft.com/en-us/onedrive/find-your-office-365-tenant-id
+- https://stackoverflow.com/questions/53635579/aadsts700054-response-type-id-token-is-not-enabled-for-the-application
+- https://www.koskila.net/how-to-fix-aadsts500113-no-reply-address-is-registered-for-the-application-error/
 
 More Resources Used:
 - https://azure.microsoft.com/en-us/blog/deploy-to-azure-button-for-azure-websites-2/
@@ -198,6 +203,7 @@ More Resources Used:
 There are example tests for the RESTful CRUD operations. They can be run with the debugger. These are implemented with ts-jest to add TypeScript support to the jest testing library.
 
 Run/Debug Tests:
+Insure that you have your local.settings.json COSMOS_SQL_ENDPOINT & COSMOS_SQL_MASTERKEY configured to a deployed instance from the deployment script and then, with all vscode tasks killed run the vscode compound debug launch "Functions/Jest" to run and debug the tests.
 
 ![alt test](https://media.giphy.com/media/QsPgzcFhSlgPe44zJy/source.gif)
 
