@@ -1,8 +1,6 @@
-import { Person } from "../common/dto/person";
 import Axios from "axios";
-import { CosmosSqlHelper } from "../common/dal/cosmosSqlHelper";
 import * as dbHelpers from '../common/dal/cosmosDbHelpers';
-import * as fs from 'fs';
+import { Person } from "../common/dto/person";
 
 beforeAll(async () => {
     jest.setTimeout(30000);
